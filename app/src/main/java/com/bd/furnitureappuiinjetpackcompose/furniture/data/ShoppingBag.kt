@@ -2,6 +2,7 @@ package com.bd.furnitureappuiinjetpackcompose.furniture.data
 
 import android.graphics.drawable.Icon
 import androidx.annotation.DrawableRes
+import com.bd.furnitureappuiinjetpackcompose.R
 
 data class ShoppingBag(
     val id: Int,
@@ -10,3 +11,28 @@ data class ShoppingBag(
     val qty: Int,
     val price: String
 )
+
+val shoppingList = listOf(
+    ShoppingBag(
+        1,
+        R.drawable.product_one,
+        "Jan Sflanaganvik sofa",
+        1,
+        "$566"
+    ),
+    ShoppingBag(
+        2,
+        R.drawable.product_two,
+        "Sverom chair",
+        3,
+        "$566"
+    ),
+    ShoppingBag(
+        3,
+        R.drawable.product_three,
+        "Kallax chair",
+        1,
+        "$566"
+    ),
+
+    )
