@@ -3,9 +3,12 @@ package com.bd.furnitureappuiinjetpackcompose.ui.screens
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,6 +23,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -32,7 +36,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment.Companion.BottomEnd
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Alignment.Companion.CenterStart
+import androidx.compose.ui.Alignment.Companion.TopEnd
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -49,7 +55,9 @@ import com.bd.furnitureappuiinjetpackcompose.components.LogoComponent
 import com.bd.furnitureappuiinjetpackcompose.components.SpacerHeight
 import com.bd.furnitureappuiinjetpackcompose.components.SpacerWidth
 import com.bd.furnitureappuiinjetpackcompose.furniture.data.Category
+import com.bd.furnitureappuiinjetpackcompose.furniture.data.PopularProducts
 import com.bd.furnitureappuiinjetpackcompose.furniture.data.categoryList
+import com.bd.furnitureappuiinjetpackcompose.furniture.data.popularProductList
 import com.bd.furnitureappuiinjetpackcompose.ui.theme.Background
 import com.bd.furnitureappuiinjetpackcompose.ui.theme.DarkOrange
 import com.bd.furnitureappuiinjetpackcompose.ui.theme.LightGray_1
@@ -61,21 +69,20 @@ fun HomeScreen(
 
     var text by remember { mutableStateOf("") }
 
-    Box(
+    LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .background(Background)
     ) {
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(20.dp)
-        ) {
+        item {
+            SpacerHeight(20.dp)
             Header()
             CustomTextField(text = text, onValueChange = {text = it})
             SpacerHeight(20.dp)
             CategoryRow()
+            SpacerHeight(20.dp)
+            PopularRow()
         }
     }
 }
@@ -211,4 +218,78 @@ fun CommonTitle(title: String,
             )
         }
     }
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+fun PopularRow(
+//    onClick: () -> Unit
+) {
+
+    Column {
+        CommonTitle(title = stringResource(id = R.string.popular))
+        SpacerHeight()
+        FlowRow(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceAround
+        ) {
+            popularProductList.forEach {
+                PopularEachRow(data = it)
+            }
+        }
+    }
+
+}
+
+@Composable
+fun PopularEachRow(
+    data: PopularProducts,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {}
+) {
+
+    Column(
+        modifier = modifier
+            .padding(vertical = 5.dp)
+            .clickable { onClick() }
+    ) {
+        Box {
+            Image(
+                painter = painterResource(id = data.image), contentDescription = "",
+                modifier = Modifier
+                    .width(141.dp)
+                    .height(149.dp)
+            )
+            Icon(
+                painter = painterResource(id = R.drawable.wishlist), contentDescription = "",
+                modifier = Modifier
+                    .padding(15.dp)
+                    .size(32.dp)
+                    .align(TopEnd),
+                tint = Color.Unspecified
+            )
+        }
+        SpacerHeight()
+        ElevatedCard(
+            modifier = Modifier.align(CenterHorizontally).width(141.dp)
+        ) {
+            Column(modifier = Modifier.padding(horizontal = 10.dp, vertical = 15.dp)) {
+                Text(
+                    text = data.title, style = TextStyle(
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.W400,
+                        color = LightGray_1
+                    )
+                )
+                Text(
+                    text = data.price, style = TextStyle(
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.W600,
+                        color = Color.Black
+                    )
+                )
+            }
+        }
+    }
+
 }
