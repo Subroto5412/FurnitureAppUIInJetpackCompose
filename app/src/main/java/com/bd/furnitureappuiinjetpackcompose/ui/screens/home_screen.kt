@@ -40,7 +40,9 @@ import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Alignment.Companion.CenterStart
 import androidx.compose.ui.Alignment.Companion.TopEnd
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -56,11 +58,14 @@ import com.bd.furnitureappuiinjetpackcompose.components.SpacerHeight
 import com.bd.furnitureappuiinjetpackcompose.components.SpacerWidth
 import com.bd.furnitureappuiinjetpackcompose.furniture.data.Category
 import com.bd.furnitureappuiinjetpackcompose.furniture.data.PopularProducts
+import com.bd.furnitureappuiinjetpackcompose.furniture.data.Rooms
 import com.bd.furnitureappuiinjetpackcompose.furniture.data.categoryList
 import com.bd.furnitureappuiinjetpackcompose.furniture.data.popularProductList
+import com.bd.furnitureappuiinjetpackcompose.furniture.data.roomList
 import com.bd.furnitureappuiinjetpackcompose.ui.theme.Background
 import com.bd.furnitureappuiinjetpackcompose.ui.theme.DarkOrange
 import com.bd.furnitureappuiinjetpackcompose.ui.theme.LightGray_1
+import com.bd.furnitureappuiinjetpackcompose.ui.theme.TextColor_1
 
 @Composable
 fun HomeScreen(
@@ -83,6 +88,9 @@ fun HomeScreen(
             CategoryRow()
             SpacerHeight(20.dp)
             PopularRow()
+            BannerRow()
+            Rooms()
+            SpacerHeight(50.dp)
         }
     }
 }
@@ -238,7 +246,6 @@ fun PopularRow(
             }
         }
     }
-
 }
 
 @Composable
@@ -291,5 +298,76 @@ fun PopularEachRow(
             }
         }
     }
+}
 
+@Composable
+fun BannerRow() {
+
+    Image(
+        painter = painterResource(id = R.drawable.banner), contentDescription = "",
+        modifier = Modifier
+            .padding(vertical = 20.dp)
+            .clip(RoundedCornerShape(8.dp))
+            .fillMaxWidth()
+            .height(113.dp),
+        contentScale = ContentScale.FillWidth
+    )
+
+}
+
+@Composable
+fun Rooms() {
+
+    Column {
+        Text(
+            text = stringResource(id = R.string.rooms), style = TextStyle(
+                fontWeight = FontWeight.W600,
+                fontSize = 20.sp,
+                color = Color.Black
+            )
+        )
+        SpacerHeight(5.dp)
+        Text(
+            text = stringResource(id = R.string.room_des), style = TextStyle(
+                fontWeight = FontWeight.W400,
+                fontSize = 14.sp,
+                color = LightGray_1
+            )
+        )
+        SpacerHeight()
+        LazyRow {
+            items(roomList, key = { it.id }) {
+                RoomSection(rooms = it)
+            }
+        }
+    }
+
+}
+
+@Composable
+fun RoomSection(
+    rooms: Rooms
+) {
+
+    Box(
+        modifier = Modifier.padding(end = 15.dp)
+    ) {
+        Image(
+            painter = painterResource(id = rooms.image), contentDescription = "",
+            modifier = Modifier
+                .width(127.dp)
+                .height(195.dp)
+                .clip(RoundedCornerShape(8.dp))
+        )
+        Text(
+            text = rooms.title, style = TextStyle(
+                fontSize = 14.sp,
+                fontWeight = FontWeight.W400,
+                color = TextColor_1
+            ),
+            modifier = Modifier
+                .width(100.dp)
+                .padding(20.dp)
+        )
+    }
 }
