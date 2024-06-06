@@ -50,12 +50,16 @@ import com.bd.furnitureappuiinjetpackcompose.ui.theme.Background_1
 import com.bd.furnitureappuiinjetpackcompose.ui.theme.DarkGreen
 import com.bd.furnitureappuiinjetpackcompose.ui.theme.DarkOrange
 import com.bd.furnitureappuiinjetpackcompose.ui.theme.LightGray_1
+import com.bd.furnitureappuiinjetpackcompose.ui.theme.LightOrange
 import com.bd.furnitureappuiinjetpackcompose.ui.theme.TextColor_1
 
 @Composable
 fun ProductDetailScreen(
     navHostController: NavHostController
 ) {
+    val chips = listOf("Description", "Material", "Review")
+    var selected by remember { mutableStateOf(0) }
+
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
             painter = painterResource(id = R.drawable.product_four), contentDescription = "",
@@ -77,8 +81,19 @@ fun ProductDetailScreen(
                 item {
                     ProductHeaderSection()
                     RatingRow()
+                    SpacerHeight(10.dp)
+                    Row {
+                        chips.forEachIndexed { index, s ->
+                            CustomChips(
+                                title = s,
+                                selected = index == selected,
+                                index = index,
+                                onValueChange = {
+                                    selected = it
+                                })
+                        }
+                    }
                 }
-
             }
         }
     }
@@ -249,5 +264,32 @@ fun RatingRow() {
             }
         }
     }
+}
 
+@Composable
+fun CustomChips(
+    title: String,
+    selected: Boolean,
+    index: Int,
+    modifier: Modifier = Modifier,
+    onValueChange: (Int) -> Unit
+) {
+
+    TextButton(
+        onClick = { onValueChange(index) },
+        shape = RoundedCornerShape(8.dp),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = if (selected) LightOrange else Color.Transparent,
+            contentColor = if (selected) DarkOrange else LightGray_1
+        ),
+        elevation = ButtonDefaults.buttonElevation(0.dp),
+        modifier = modifier.padding(start = 20.dp)
+    ) {
+        Text(
+            text = title, style = TextStyle(
+                fontSize = 16.sp,
+                fontWeight = FontWeight.W600,
+            )
+        )
+    }
 }
