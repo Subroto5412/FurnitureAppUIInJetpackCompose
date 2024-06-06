@@ -20,7 +20,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.KeyboardArrowRight
+import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
@@ -32,6 +34,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment.Companion.BottomCenter
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -56,6 +59,7 @@ import com.bd.furnitureappuiinjetpackcompose.ui.theme.DarkOrange
 import com.bd.furnitureappuiinjetpackcompose.ui.theme.GrayColor
 import com.bd.furnitureappuiinjetpackcompose.ui.theme.LightGray_1
 import com.bd.furnitureappuiinjetpackcompose.ui.theme.LightOrange
+import com.bd.furnitureappuiinjetpackcompose.ui.theme.LineColor
 import com.bd.furnitureappuiinjetpackcompose.ui.theme.TextColor_1
 
 @Composable
@@ -113,6 +117,9 @@ fun ProductDetailScreen(
                     RecommendedProduct()
                 }
             }
+        }
+        BottomBarItem(modifier = Modifier.align(BottomCenter)) {
+//            navHostController.navigate(Checkout)
         }
     }
 }
@@ -334,5 +341,61 @@ fun RecommendedProduct() {
 
         }
     }
+}
 
+@Composable
+fun BottomBarItem(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
+    Column(
+        modifier = modifier.fillMaxWidth()
+    ) {
+        Divider(modifier = Modifier.fillMaxWidth(), color = LineColor)
+        Row(
+            modifier = Modifier
+                .padding(20.dp)
+                .fillMaxWidth()
+        ) {
+            TextButton(
+                onClick = {},
+                shape = RoundedCornerShape(8.dp),
+                modifier = Modifier
+                    .size(40.dp),
+                border = BorderStroke(1.dp, LightGray_1),
+                elevation = ButtonDefaults.buttonElevation(0.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.White,
+                )
+            ) {
+                Icon(
+                    imageVector = Icons.Default.FavoriteBorder,
+                    contentDescription = "",
+                    modifier = Modifier.size(16.dp),
+                    tint = LightGray_1
+                )
+            }
+            SpacerWidth()
+            Button(
+                onClick = onClick,
+                modifier = Modifier
+                    .height(40.dp)
+                    .fillMaxWidth().weight(0.7f),
+                shape = RoundedCornerShape(8.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = TextColor_1,
+                    contentColor = Color.White
+                ),
+                elevation = ButtonDefaults.buttonElevation(0.dp)
+            ) {
+                Text(
+                    text = stringResource(id = R.string.add_to_ba),
+                    style = TextStyle(
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.W400
+                    )
+                )
+            }
+        }
+    }
 }
