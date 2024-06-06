@@ -62,6 +62,7 @@ import com.bd.furnitureappuiinjetpackcompose.furniture.data.Rooms
 import com.bd.furnitureappuiinjetpackcompose.furniture.data.categoryList
 import com.bd.furnitureappuiinjetpackcompose.furniture.data.popularProductList
 import com.bd.furnitureappuiinjetpackcompose.furniture.data.roomList
+import com.bd.furnitureappuiinjetpackcompose.ui.navigation.ProductDetail
 import com.bd.furnitureappuiinjetpackcompose.ui.theme.Background
 import com.bd.furnitureappuiinjetpackcompose.ui.theme.DarkOrange
 import com.bd.furnitureappuiinjetpackcompose.ui.theme.LightGray_1
@@ -87,7 +88,7 @@ fun HomeScreen(
             SpacerHeight(20.dp)
             CategoryRow()
             SpacerHeight(20.dp)
-            PopularRow()
+            PopularRow{navHostController.navigate(ProductDetail)}
             BannerRow()
             Rooms()
             SpacerHeight(50.dp)
@@ -231,7 +232,7 @@ fun CommonTitle(title: String,
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun PopularRow(
-//    onClick: () -> Unit
+    onClick: () -> Unit
 ) {
 
     Column {
@@ -242,7 +243,9 @@ fun PopularRow(
             horizontalArrangement = Arrangement.SpaceAround
         ) {
             popularProductList.forEach {
-                PopularEachRow(data = it)
+                PopularEachRow(data = it){
+                    onClick()
+                }
             }
         }
     }

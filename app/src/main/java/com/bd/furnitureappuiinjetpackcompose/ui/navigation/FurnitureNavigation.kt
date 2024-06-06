@@ -5,6 +5,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.bd.furnitureappuiinjetpackcompose.ui.screens.HomeScreen
+import com.bd.furnitureappuiinjetpackcompose.ui.screens.ProductDetailScreen
 
 @Composable
 fun FurnitureNavigation() {
@@ -13,8 +14,12 @@ fun FurnitureNavigation() {
         composable(Home){
             HomeScreen(navHostController)
         }
+        composable(ProductDetail){
+            ProductDetailScreen(navHostController)
+        }
     }
 
 }
 
 const val Home = "home_screen"
+const val ProductDetail = "product_detail_screen"
