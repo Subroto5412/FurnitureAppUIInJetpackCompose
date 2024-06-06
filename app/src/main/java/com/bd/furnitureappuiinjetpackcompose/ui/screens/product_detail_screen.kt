@@ -14,12 +14,15 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -44,11 +47,13 @@ import androidx.navigation.NavHostController
 import com.bd.furnitureappuiinjetpackcompose.R
 import com.bd.furnitureappuiinjetpackcompose.components.SpacerHeight
 import com.bd.furnitureappuiinjetpackcompose.components.SpacerWidth
+import com.bd.furnitureappuiinjetpackcompose.furniture.data.popularProductList
 import com.bd.furnitureappuiinjetpackcompose.ui.navigation.Home
 import com.bd.furnitureappuiinjetpackcompose.ui.theme.Background
 import com.bd.furnitureappuiinjetpackcompose.ui.theme.Background_1
 import com.bd.furnitureappuiinjetpackcompose.ui.theme.DarkGreen
 import com.bd.furnitureappuiinjetpackcompose.ui.theme.DarkOrange
+import com.bd.furnitureappuiinjetpackcompose.ui.theme.GrayColor
 import com.bd.furnitureappuiinjetpackcompose.ui.theme.LightGray_1
 import com.bd.furnitureappuiinjetpackcompose.ui.theme.LightOrange
 import com.bd.furnitureappuiinjetpackcompose.ui.theme.TextColor_1
@@ -93,6 +98,19 @@ fun ProductDetailScreen(
                                 })
                         }
                     }
+                    SpacerHeight()
+                    Text(
+                        text = stringResource(id = R.string.lorem_ipsum_dolor_sit_amet_consectetur_adipiscing_elit_etiam_at_mi_vitae_augue_feugiat_scelerisque_in_a_eros),
+                        style = TextStyle(
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.W400,
+                            color = LightGray_1
+                        ),
+                        modifier = Modifier.padding(horizontal = 20.dp)
+                    )
+                    SpacerHeight(15.dp)
+                    Divider(modifier = Modifier.fillMaxWidth(), color = GrayColor, thickness = 5.dp)
+                    RecommendedProduct()
                 }
             }
         }
@@ -292,4 +310,29 @@ fun CustomChips(
             )
         )
     }
+}
+
+@Composable
+fun RecommendedProduct() {
+
+    Column(
+        modifier = Modifier.padding(20.dp)
+    ) {
+        Text(
+            text = stringResource(id = R.string.recommend_products), style = TextStyle(
+                fontSize = 16.sp,
+                fontWeight = FontWeight.W600,
+                color = TextColor_1
+            )
+        )
+        SpacerHeight(20.dp)
+        LazyRow {
+            items(popularProductList, key = { it.id }) {
+                PopularEachRow(data = it, modifier = Modifier.padding(end = 20.dp)) {
+                }
+            }
+
+        }
+    }
+
 }
